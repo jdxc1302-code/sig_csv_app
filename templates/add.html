@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Agregar Registro</h2>
+
+<form method="POST">
+
+    {% for col in columns %}
+        <label>{{ col }}</label>
+        <input type="text" name="{{ col }}" required>
+        <br><br>
+    {% endfor %}
+
+    <button type="submit">Guardar</button>
+</form>
+
+{% endblock %}

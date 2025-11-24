@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Dashboard</h3>
+
+<div class="row">
+  <div class="col-md-6">
+    <canvas id="statusChart"></canvas>
+  </div>
+  <div class="col-md-6">
+    <canvas id="timelineChart"></canvas>
+  </div>
+</div>
+
+<div class="row mt-4">
+  <div class="col-md-12">
+    <h5>Top proveedores</h5>
+    <ul id="topProv" class="list-group"></ul>
+  </div>
+</div>
+
+<script>
+fetch('/dashboard-data')
+  .then(r => r.json())
+  .then(data => {
+    const status = data.status_counts || {};
+    const labels = Object.keys(status);
+    const values = Object.values(status);
+    // colors mapping passed in template via color_map variable
+    const colorMap = {{ color_map|tojson|safe }};
+    const colors = labels.map(l => colorMap[l] || '#888');
+
+    new Chart(document.getElementById('statusChart'), {
+      type: 'doughnut',
+      data: { labels: labels, datasets: [{ data: values, backgroundColor: colors }] }
+    });
+
+    // timeline
+    const months = data.eta_months || {};
+    const mlabels = Object.keys(months);
+    const mvals = Object.values(months);
+    new Chart(document.getElementById('timelineChart'), {
+      type: 'line',
+      data: { labels: mlabels, datasets: [{ label: 'ETAs por mes', data: mvals, fill: false }] }
+    });
+
+    // top proveedores
+    const prov = data.top_proveedores || {};
+    const ul = document.getElementById('topProv');
+    Object.entries(prov).forEach(([p, c]) => {
+      const li = document.createElement('li');
+      li.className = 'list-group-item';
+      li.textContent = `${p} — ${c}`;
+      ul.appendChild(li);
+    });
+  });
+</script>
+{% endblock %}
+

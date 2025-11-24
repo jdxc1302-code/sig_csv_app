@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Consulta por No. Pedido de importacion o No. Contrato</h3>
+<form method="post" class="mb-3">
+  <div class="input-group">
+    <input name="q" class="form-control" placeholder="Ingresa número de pedido o contrato" value="{{ q }}">
+    <button class="btn btn-primary" type="submit">Buscar</button>
+  </div>
+</form>
+
+{% if resultados %}
+  <h5>Resultados ({{ resultados|length }})</h5>
+  <div class="list-group">
+    {% for r in resultados %}
+      <a class="list-group-item list-group-item-action" href="{{ url_for('detalle', idx=loop.index0) }}">
+        <strong>Pedido:</strong> {{ r['No. Pedido de importacion'] }} —
+        <strong>Contrato:</strong> {{ r['No. Contrato'] }} —
+        <strong>Cliente:</strong> {{ r['Cliente'] }} —
+        <strong>Status:</strong> <span style="color: {{ (r['Status importacion'] and (color_map.get(r['Status importacion']) or '#000') ) or '#000' }}">{{ r['Status importacion'] }}</span>
+      </a>
+    {% endfor %}
+  </div>
+{% elif q %}
+  <div class="alert alert-warning">No se encontraron registros para "{{ q }}"</div>
+{% endif %}
+{% endblock %}

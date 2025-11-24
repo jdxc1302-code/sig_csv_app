@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Detalle de registro</h3>
+
+<table class="table table-bordered">
+  {% for k, v in row.items() %}
+    <tr>
+      <th style="width:40%">{{ k }}</th>
+      <td>
+        {{ v }}
+
+        {% if k == 'Procedencia' and flag_file %}
+          <br>
+          <img src="{{ url_for('static', filename='flags/' ~ flag_file) }}"
+               style="max-width:120px; margin-top:8px;">
+        {% endif %}
+
+      </td>
+    </tr>
+  {% endfor %}
+</table>
+
+<a class="btn btn-secondary" href="{{ url_for('consultar') }}">Volver a resultados</a>
+{% endblock %}

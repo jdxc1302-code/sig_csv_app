@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row align-items-center">
+  <div class="col-md-2">
+    <img src="{{ url_for('static', filename='logo.png') }}" alt="Norventas" style="max-width:140px;">
+  </div>
+  <div class="col-md-10">
+    <h1>NORVENTAS</h1>
+    <p class="lead">Sistema de Información de Importaciones</p>
+  </div>
+</div>
+
+<hr>
+
+<div class="mt-4">
+  <a class="btn btn-primary" href="{{ url_for('consultar') }}">Consultar pedido / contrato</a>
+  <a class="btn btn-success" href="{{ url_for('add') }}">Agregar registro</a>
+  <a class="btn btn-info" href="{{ url_for('dashboard') }}">Ver Dashboard</a>
+</div>
+{% endblock %}
+
